@@ -2,3 +2,4 @@ numpy==1.24.3
 opencv-python==4.7.0.72
 PyWavelets==1.4.1
 matplotlib==3.7.1 
+PIL == 9.5.0
