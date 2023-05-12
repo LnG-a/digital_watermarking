@@ -1,4 +1,4 @@
-# digital_watermarking
+# Digital Watermarking using several techniques
 
 ### Least Significant Bit (LSB)
 
