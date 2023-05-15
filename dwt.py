@@ -6,11 +6,11 @@ def embed_watermark(image_path, watermark_path, output_path, secret_key):
     # Load the image
     image = cv2.imread(image_path)
 
-    # Resize the image to a multiple of 32
-    resized_image = resize_image(image)
+    # Get the original image size
+    original_size = image.shape[:2]
 
-    # Convert the resized image to YCbCr color space
-    ycrcb_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2YCrCb)
+    # Convert the image to YCbCr color space
+    ycrcb_image = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
 
     # Extract the Y channel
     y_channel = ycrcb_image[:, :, 0]
@@ -25,10 +25,12 @@ def embed_watermark(image_path, watermark_path, output_path, secret_key):
 
     # Get the watermark image
     watermark = cv2.imread(watermark_path, cv2.IMREAD_GRAYSCALE)
-    watermark = resize_image(watermark)
+
+    # Resize the watermark to match the original image size
+    resized_watermark = cv2.resize(watermark, (original_size[1], original_size[0]))
 
     # Convert the watermark to binary message vector (MV)
-    message_vector = watermark.flatten() > 127
+    message_vector = resized_watermark.flatten() > 127
 
     # Generate pseudo-noise sequence (PSN) using secret key
     np.random.seed(secret_key)
