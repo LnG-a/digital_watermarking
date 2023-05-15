@@ -3,7 +3,7 @@ import numpy as np
 import random
 
 # Đọc ảnh gốc và watermark
-img_path = 'input\DFTimage.jpg'
+img_path = 'input\DFTimage.jpeg'
 watermark_path = 'input\DFTwatermark.jpeg'
 img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
 watermark = cv2.imread(watermark_path, cv2.IMREAD_GRAYSCALE)
@@ -37,13 +37,8 @@ img_watermarked = cv2.normalize(img_watermarked, None, 0, 255, cv2.NORM_MINMAX, 
 
 # Lưu ảnh ra đã được chèn watermark ra file
 cv2.imwrite('output\DFTwatermarked.jpg', img_watermarked)
-# Hiển thị ảnh đã được chèn watermark
-# mad = np.mean(np.abs(img - img_watermarked))
-# print(mad)
-cv2.imshow('image', img)
-cv2.imshow('Watermarked image', img_watermarked)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
+# Trích xuất watermark
 
 # Áp dụng phép biến đổi DFT lên ảnh đã được chèn watermark
 dft = cv2.dft(np.float32(img_watermarked), flags=cv2.DFT_COMPLEX_OUTPUT)
@@ -63,6 +58,9 @@ watermark_idft = cv2.normalize(watermark_idft, None, 0, 255, cv2.NORM_MINMAX, dt
 cv2.imwrite('output\DFT_extracted_watermark.jpg', watermark_idft)
 
 # Hiển thị watermark đã được trích xuất
-cv2.imshow('Watermark', watermark_idft)
+watermark = cv2.imread(watermark_path, cv2.IMREAD_GRAYSCALE)
+cv2.imshow('Watermark', watermark)
+cv2.imshow('Extracted Watermark', watermark_idft)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
